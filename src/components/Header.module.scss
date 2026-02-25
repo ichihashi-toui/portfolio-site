@@ -1,0 +1,75 @@
+.header {
+  position: fixed;
+  top: 40px;
+  right: 5%;
+  z-index: 1000;
+}
+
+.hamburger {
+  width: 40px;
+  height: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+  transition: transform 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+.menuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(229, 229, 229, 0.95);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.menuOverlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
+}
+
+.nav a {
+  font-size: 3rem;
+  text-decoration: none;
+  color: #000;
+  letter-spacing: -0.02em;
+  transition: opacity 0.3s;
+}
+
+.nav a:hover {
+  opacity: 0.5;
+}
