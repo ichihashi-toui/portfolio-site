@@ -1,0 +1,187 @@
+.pageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  color: #000;
+  position: relative;
+}
+
+.backButton {
+  position: absolute;
+  top: 20px;
+  left: 5vw;
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: #000;
+  text-decoration: none;
+  z-index: 2000;
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+/* --- First View --- */
+.fvSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.fvImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.fvInfo {
+  position: absolute;
+  bottom: 8vh;
+  left: 5vw;
+  z-index: 2;
+  color: #000; /* 画像の色味に合わせて #fff に変更してもOKです */
+}
+
+.category {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 40px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* --- Content Section --- */
+.contentSection {
+  padding: 120px 0;
+  margin: 0 auto;
+}
+
+.block {
+  display: flex;
+  flex-direction: column; /* ★ 横並びから縦並びに変更 */
+  align-items: center;    /* ★ コンテンツ全体を画面の中央に配置 */
+  gap: 60px;              /* ★ 番号と説明カードの隙間 */
+  margin-bottom: 200px;
+  padding: 0 5vw;
+}
+
+/* 左側の縦置きインデックス番号 */
+.blockIndex {
+  font-size: 6rem;      /* ★ 少し大きめに微調整 */
+  font-weight: 300;
+  line-height: 1;
+  width: 100%;
+  text-align: left;       /* ★ 左揃え */
+}
+
+.blockContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* ★ テキストやカードを左揃えに保つ */
+}
+
+/* 白いカードデザイン */
+.card {
+  background: #fff;
+  padding: 30px 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* うっすらとした影 */
+  width: 100%;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.tag {
+  display: inline-block;
+  border: 1px solid #000;
+  padding: 5px 15px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  letter-spacing: 0.05em;
+}
+
+.subText {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #666;
+}
+
+.arrowDown {
+  font-size: 2rem;
+  margin: 20px 0;
+  color: #666;
+  margin-left: 50px; /* カードの中央付近に配置 */
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.text {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* UIカードの並び */
+.uiCards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.uiCard {
+  background: #fff;
+  display: flex;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  gap: 20px;
+}
+
+.uiImage {
+  width: 150px;
+  height: 100px;
+  background: #ccc; /* 実際の画像が入るまでのダミー */
+  flex-shrink: 0;
+}
+
+.uiText {
+  h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}

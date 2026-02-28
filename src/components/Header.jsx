@@ -17,10 +17,10 @@ export default function Header() {
 
       <div className={`${styles.menuOverlay} ${isOpen ? styles.active : ''}`}>
         <nav className={styles.nav}>
-          <Link to="/" onClick={toggleMenu}>Home</Link>
-          <Link to="/contents" onClick={toggleMenu}>Contents</Link>
-          <Link to="/profile" onClick={toggleMenu}>Profile</Link>
-          <Link to="/gallery" onClick={toggleMenu}>Gallery</Link>
+          <Link to="/" onClick={toggleMenu}data-cursortext="TAP">Home</Link>
+          <Link to="/contents" onClick={toggleMenu}data-cursortext="TAP">Contents</Link>
+          <Link to="/profile" onClick={toggleMenu}data-cursortext="TAP">Profile</Link>
+          <Link to="/gallery" onClick={toggleMenu}data-cursortext="TAP">Gallery</Link>
         </nav>
       </div>
     </>

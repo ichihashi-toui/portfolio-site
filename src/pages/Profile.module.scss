@@ -1,0 +1,162 @@
+.pageTitle {
+  position: absolute;
+  top: 5vh;
+  left: 5vw;
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: #000;
+  margin: 0;
+  z-index: 2000;
+  pointer-events: none; /* マウスの判定を無くし、純粋な背景テキストとして扱います */
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  color: #000;
+  padding: 100px 5vw 60px;
+  box-sizing: border-box;
+}
+
+/* --- Hero Area --- */
+.heroArea {
+  margin-top: 50px;
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 40px;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.heroImageWrapper {
+  width: clamp(200px, 30vw, 400px);
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+}
+
+.heroText {
+  width: auto;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.role {
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.nameEn {
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.9;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin-left: -0.05em;
+
+  span {
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+  }
+}
+
+.nameJa {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* --- Sections --- */
+.section {
+  margin-bottom: 80px;
+  border-top: 2px solid #000;
+  padding-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 300px;
+  font-size: 1rem;
+  line-height: 2.0;
+  font-weight: 400;
+}
+
+/* --- Detail Blocks --- */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 15px;
+}
+
+.bio {
+  white-space: pre-wrap;
+}
+
+.skillBlock {
+  margin-bottom: 40px;
+
+  h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+  }
+}
+
+.historyBlock {
+  margin-bottom: 40px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+
+  h4 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #666;
+  }
+}
+
+.historyYear {
+  font-weight: bold;
+  min-width: 80px;
+}
