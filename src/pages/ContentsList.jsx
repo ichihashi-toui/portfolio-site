@@ -5,6 +5,7 @@ import { useWheel } from '@use-gesture/react';
 import { useNavigate } from 'react-router-dom';
 import * as THREE from 'three';
 import styles from './ContentsList.module.scss';
+import LoadingScreen from '../components/LoadingScreen'; 
 
 const projects = [
   { id: 1, slug: 'fomo', cat: 'Web design', title: 'FOMO啓発サイト', date: '2026-02', type: '個人制作', role: 'Webデザイン / フロントエンド実装', stack: 'Figma / HTML / CSS / JavaScript', img: 'moc/fomo.png' },
@@ -17,12 +18,10 @@ const projects = [
   { id: 8, slug: 'syobo', cat: 'graphic design', title: '危険物事故防止ポスター', date: '2025-11', type: '個人制作', role: 'ブランディング / Webデザイン / フロントエンド実装', stack: 'Figma / Blender / React / Sass', img: 'moc/syobo.png' },
 ];
 
-// ★ 新規追加：カーソルの文字だけを更新し、Canvasの再描画を防ぐ専用のラッパー
 function CursorWrapper({ children }) {
   const [cursorText, setCursorText] = useState('SCROLL');
 
   useEffect(() => {
-    // 3D空間から送られてきた電報（カスタムイベント）を受け取って文字を更新
     const handleUpdate = (e) => setCursorText(e.detail);
     window.addEventListener('updateCursorText', handleUpdate);
     return () => window.removeEventListener('updateCursorText', handleUpdate);
@@ -40,7 +39,6 @@ function ProjectImage({ project, angle, radius, navigate }) {
   const x = radius * Math.cos(angle);
   const y = radius * Math.sin(angle);
 
-  // カスタムカーソルにテキスト変更の電報を送る関数
   const updateCursor = (text) => {
     window.dispatchEvent(new CustomEvent('updateCursorText', { detail: text }));
   };
@@ -56,12 +54,12 @@ function ProjectImage({ project, angle, radius, navigate }) {
       onPointerOver={(e) => {
         e.stopPropagation();
         setHovered(true);
-        updateCursor('TAP'); // ★ カーソルをTAPに変更
+        updateCursor('TAP'); 
       }}
       onPointerOut={(e) => {
         e.stopPropagation();
         setHovered(false);
-        updateCursor('SCROLL'); // ★ カーソルをSCROLLに戻す
+        updateCursor('SCROLL'); 
       }}
     />
   );
@@ -160,6 +158,8 @@ export default function ContentsList() {
 
   return (
     <section className={styles.container}>
+      <LoadingScreen />
+
       <div className={styles.leftPane}>
         <h2 className={styles.pageTitle}>contents</h2>
 
@@ -179,7 +179,6 @@ export default function ContentsList() {
         </div>
       </div>
 
-      {/* ★ 専用のラッパーコンポーネントでCanvasを囲む */}
       <CursorWrapper>
         <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
           <color attach="background" args={['#e5e5e5']} />

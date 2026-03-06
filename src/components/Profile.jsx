@@ -30,7 +30,7 @@ export default function Profile() {
 
         {/* 右側の画像エリア */}
         <div className={styles.imageArea}>
-          <img src={`${import.meta.env.BASE_URL}star.jpg`} alt="市橋 冬翔" />
+          <img src={`${import.meta.env.BASE_URL}profile.jpg`} alt="市橋 冬翔" />
         </div>
         
       </div>

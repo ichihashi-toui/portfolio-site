@@ -1,33 +1,77 @@
 .pageWrapper {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory; 
+  scroll-behavior: smooth;
   color: #000;
   position: relative;
+  background-color: #e5e5e5;
+}
+
+.dummyScroll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.snapPoint {
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.snapSection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
 }
 
 .backButton {
-  position: absolute;
+  position: fixed; 
   top: 20px;
   left: 5vw;
   font-size: 2.5rem;
   font-weight: 400;
   letter-spacing: -0.02em;
-  color: #000;
+  color: #fff; 
   text-decoration: none;
-  z-index: 2000;
+  z-index: 2000; 
   transition: opacity 0.3s;
+  mix-blend-mode: difference;
+  -webkit-mix-blend-mode: difference; 
 
   &:hover {
-    opacity: 0.5;
+    opacity: 0.5; 
   }
 }
 
-/* --- First View --- */
 .fvSection {
-  position: relative;
-  width: 100%;
-  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  z-index: 1;
 }
 
 .fvImage {
@@ -40,12 +84,53 @@
   z-index: 1;
 }
 
+.fvOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.navArrows {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3vw;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none;
+
+  button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 200;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: opacity 0.3s, transform 0.3s;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+
+    &:hover {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+  }
+}
+
 .fvInfo {
   position: absolute;
   bottom: 8vh;
   left: 5vw;
   z-index: 2;
-  color: #000; /* 画像の色味に合わせて #fff に変更してもOKです */
+  color: #000;
 }
 
 .category {
@@ -69,42 +154,47 @@
   font-weight: 500;
 }
 
-/* --- Content Section --- */
 .contentSection {
-  padding: 120px 0;
-  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .block {
   display: flex;
-  flex-direction: column; /* ★ 横並びから縦並びに変更 */
-  align-items: center;    /* ★ コンテンツ全体を画面の中央に配置 */
-  gap: 60px;              /* ★ 番号と説明カードの隙間 */
-  margin-bottom: 200px;
+  flex-direction: row; 
+  justify-content: center; 
+  align-items: center; 
+  gap: 8vw; 
   padding: 0 5vw;
+  pointer-events: auto;
 }
 
-/* 左側の縦置きインデックス番号 */
 .blockIndex {
-  font-size: 6rem;      /* ★ 少し大きめに微調整 */
+  font-size: 10rem; 
   font-weight: 300;
   line-height: 1;
-  width: 100%;
-  text-align: left;       /* ★ 左揃え */
+  color: #111; 
+  flex-shrink: 0; 
 }
 
 .blockContent {
   width: 100%;
+  max-width: 800px; 
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* ★ テキストやカードを左揃えに保つ */
+  align-items: flex-start; 
 }
 
-/* 白いカードデザイン */
 .card {
   background: #fff;
   padding: 30px 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* うっすらとした影 */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
   width: 100%;
 }
 
@@ -135,7 +225,7 @@
   font-size: 2rem;
   margin: 20px 0;
   color: #666;
-  margin-left: 50px; /* カードの中央付近に配置 */
+  margin-left: 50px; 
 }
 
 .sectionTitle {
@@ -150,7 +240,6 @@
   line-height: 1.8;
 }
 
-/* UIカードの並び */
 .uiCards {
   display: flex;
   flex-direction: column;
@@ -168,9 +257,10 @@
 }
 
 .uiImage {
-  width: 150px;
-  height: 100px;
-  background: #ccc; /* 実際の画像が入るまでのダミー */
+  width: 30%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 4px;
   flex-shrink: 0;
 }
 
@@ -183,5 +273,187 @@
   p {
     font-size: 0.9rem;
     line-height: 1.5;
+  }
+}
+
+.darkBlock {
+  background-color: #111;
+  flex-direction: column !important; 
+  justify-content: center;
+  align-items: center;
+  gap: 30px !important;
+}
+
+.fullWidthContent {
+  width: 100%;
+  max-width: 1200px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.darkText {
+  color: #fff;
+}
+
+.darkTag {
+  border-color: #fff;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.mockupContainerGroup {
+  position: relative;
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mockups {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  pointer-events: none;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.active {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.pcMockup {
+  width: 70%;
+  aspect-ratio: 1440 / 844;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 12px solid #222; 
+  position: relative;
+}
+
+.pcMockup {
+  width: 70%;
+  aspect-ratio: 1440 / 844;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 12px solid #222; 
+  position: relative;
+  overscroll-behavior: contain; 
+}
+
+.spMockup {
+  width: 20%;
+  aspect-ratio: 390 / 844; 
+  background: #000;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 10px solid #222;
+  position: relative;
+  overscroll-behavior: contain; 
+}
+
+.pcIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1440px !important;
+  min-width: 1440px !important;
+  max-width: none !important;
+  height: 844px !important;
+  transform-origin: 0 0;
+  border: none;
+  background-color: #fff; 
+  display: block;
+}
+
+.spIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 390px !important;
+  min-width: 390px !important;
+  max-width: none !important;
+  height: 844px !important;
+  transform-origin: 0 0;
+  border: none;
+  background-color: #fff; 
+  display: block;
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #000;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+.interactiveViewer {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #333;
+}
+
+.viewerImage {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+.viewerControls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+  
+  button {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.3s;
+    &:hover { background: rgba(255, 255, 255, 0.4); }
   }
 }

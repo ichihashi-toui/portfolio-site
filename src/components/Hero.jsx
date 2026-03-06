@@ -6,7 +6,7 @@ import * as THREE from 'three';
 import { Link } from 'react-router-dom';
 
 function CustomEnvironment() {
-  const texture = useTexture(`${import.meta.env.BASE_URL}environment.png`);
+  const texture = useTexture(`${import.meta.env.BASE_URL}environment.jpg`);
   texture.mapping = THREE.EquirectangularReflectionMapping;
   return <Environment map={texture} />;
 }

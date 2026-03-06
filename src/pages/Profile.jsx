@@ -45,7 +45,7 @@ export default function Profile() {
             transition={{ duration: 0.8, delay: 0.3, ease: "backOut" }}
           >
             {/* ★ご自身の画像パスに合わせて適宜変更してください */}
-            <img src={`${import.meta.env.BASE_URL}ichihashi-1.png`} alt="Profile" className={styles.heroImage} />
+            <img src={`${import.meta.env.BASE_URL}ichihashi-1.jpg`} alt="Profile" className={styles.heroImage} />
           </motion.div>
 
           <div className={styles.heroText}>

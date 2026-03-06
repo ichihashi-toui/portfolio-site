@@ -1,29 +1,43 @@
+import { Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Hero from '../components/Hero';
 import Contents from '../components/Contents';
 import Profile from '../components/Profile';
-import Gallery from '../components/Gallery';
 import Footer from '../components/Footer';
+import LoadingScreen from '../components/LoadingScreen';
+import HomeTvGallery from '../components/HomeTvGallery';
 import styles from './Home.module.scss';
-import HomeTvGallery from '../components/Gallery';
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="container">
+      {/* 画面全体を覆うローディング画面 */}
+      <LoadingScreen />
+
       <Hero />
       <Contents />
       <Profile />
-      <Gallery />
-      <Footer />
-<section className={styles.gallerySection}>
+
+      <section className={styles.gallerySection}>
         <div className={styles.galleryTitle}>
           <h2>Gallery</h2>
-          <p>Analog vibes in digital world.</p>
         </div>
-        
-        <div className={styles.tvWrapper}>
-          <HomeTvGallery />
+
+        <div
+          className={styles.tvWrapper}
+          onClick={() => navigate('/gallery')}
+          data-cursortext="TAP"
+        >
+          {/* 3Dコンテンツの読み込み完了を待機 */}
+          <Suspense fallback={null}>
+            <HomeTvGallery />
+          </Suspense>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
