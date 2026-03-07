@@ -70,7 +70,6 @@ export default function EqdContent() {
           </div>
         </div>
       </div>
-
       <div className={`${styles.block} ${styles.snapSection}`}>
         <div className={styles.blockIndex}>01</div>
         <div className={styles.blockContent}>

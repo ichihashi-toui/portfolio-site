@@ -138,6 +138,15 @@ function RotatingGallery({ activeIndex, setActiveIndex, navigate }) {
 export default function ContentsList() {
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
+  // ★ スマホサイズかどうかを判定する変数を追加
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const carouselRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const originalHtmlOverflow = document.documentElement.style.overflow;
@@ -146,7 +155,11 @@ export default function ContentsList() {
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
     
-    const preventTouch = (e) => e.preventDefault();
+    const preventTouch = (e) => {
+      // ★ スマホの横カルーセル部分だけは指でのスワイプ（スクロール）を許可する
+      if (e.target.closest(`.${styles.mobileCarousel}`)) return;
+      e.preventDefault();
+    };
     document.addEventListener('touchmove', preventTouch, { passive: false });
 
     return () => {
@@ -155,6 +168,17 @@ export default function ContentsList() {
       document.removeEventListener('touchmove', preventTouch);
     };
   }, []);
+
+  // ★ カルーセルをスワイプした時に、今どの画像が真ん中にあるか計算してテキストを切り替える
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const scrollLeft = carouselRef.current.scrollLeft;
+    const itemWidth = window.innerWidth;
+    const index = Math.round(scrollLeft / itemWidth);
+    if (index !== activeIndex && index >= 0 && index < projects.length) {
+      setActiveIndex(index);
+    }
+  };
 
   return (
     <section className={styles.container}>
@@ -179,21 +203,51 @@ export default function ContentsList() {
         </div>
       </div>
 
-      <CursorWrapper>
-        <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
-          <color attach="background" args={['#e5e5e5']} />
-          <ambientLight intensity={0.5} />
-          <Environment preset="city" />
+      {/* ★ スマホの時は横カルーセル、PCの時は3Dキャンバスを表示するように分岐 */}
+      {isMobile ? (
+        <>
+        <div 
+          className={styles.mobileCarousel} 
+          ref={carouselRef} 
+          onScroll={handleScroll}
+        >
+          {projects.map((project) => (
+            <div 
+              key={project.id} 
+              className={styles.carouselItem}
+              onClick={() => navigate(`/contents/${project.slug}`)}
+            >
+              <img src={`${import.meta.env.BASE_URL}${project.img}`} alt={project.title} className={styles.carouselImg} />
+              <div className={styles.tapToView}>TAP TO VIEW</div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.dotsContainer}>
+            {projects.map((_, index) => (
+              <div
+                key={index}
+                className={`${styles.dot} ${index === activeIndex ? styles.activeDot : ''}`}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <CursorWrapper>
+          <Canvas camera={{ position: [0, 0, 10], fov: 40 }}>
+            <color attach="background" args={['#e5e5e5']} />
+            <ambientLight intensity={0.5} />
+            <Environment preset="city" />
 
-          <Suspense fallback={null}>
-            <RotatingGallery 
-              activeIndex={activeIndex} 
-              setActiveIndex={setActiveIndex} 
-              navigate={navigate}
-            />
-          </Suspense>
-        </Canvas>
-      </CursorWrapper>
+            <Suspense fallback={null}>
+              <RotatingGallery 
+                activeIndex={activeIndex} 
+                setActiveIndex={setActiveIndex} 
+                navigate={navigate}
+              />
+            </Suspense>
+          </Canvas>
+        </CursorWrapper>
+      )}
     </section>
   );
 }

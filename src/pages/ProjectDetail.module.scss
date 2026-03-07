@@ -1,8 +1,7 @@
 .pageWrapper {
   width: 100%;
   height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory; 
+  overflow-y: auto;
   scroll-behavior: smooth;
   color: #000;
   position: relative;
@@ -35,16 +34,25 @@
   z-index: 2;
 }
 
-.snapSection {
-  position: absolute;
+.parallaxSection {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
   transform-origin: center center;
   will-change: transform, opacity;
-  scroll-snap-align: none !important;
-  scroll-snap-stop: normal !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.normalContentSection {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  background-color: #e5e5e5;
+  padding-bottom: 10vh;
 }
 
 .backButton {
@@ -154,25 +162,24 @@
   font-weight: 500;
 }
 
-.contentSection {
-  position: absolute;
-  top: 0;
-  left: 0;
+:global(.contentSection), .contentSection {
+  position: relative;
   width: 100%;
-  height: 100vh;
-  margin: 0;
-  pointer-events: none;
-  z-index: 10;
+  z-index: 1;
 }
 
 .block {
+  position: relative;
+  z-index: 5;
+  background-color: #e5e5e5;
+  height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: row; 
   justify-content: center; 
   align-items: center; 
   gap: 8vw; 
   padding: 0 5vw;
-  pointer-events: auto;
 }
 
 .blockIndex {
@@ -277,7 +284,7 @@
 }
 
 .darkBlock {
-  background-color: #111;
+  background-color: #111 !important;
   flex-direction: column !important; 
   justify-content: center;
   align-items: center;
@@ -327,17 +334,6 @@
 .active {
   pointer-events: auto;
   opacity: 1;
-}
-
-.pcMockup {
-  width: 70%;
-  aspect-ratio: 1440 / 844;
-  background: #000;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  border: 12px solid #222; 
-  position: relative;
 }
 
 .pcMockup {
@@ -455,5 +451,99 @@
     backdrop-filter: blur(4px);
     transition: background 0.3s;
     &:hover { background: rgba(255, 255, 255, 0.4); }
+  }
+}
+
+@media (max-width: 768px) {
+  .backButton {
+    font-size: 1.8rem;
+    top: 15px;
+    left: 5vw;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .fvInfo {
+    bottom: 5vh;
+  }
+
+  .navArrows button {
+    font-size: 2rem;
+  }
+
+  /* ★ ここから大きく修正（ブロックのレイアウトと間隔の統一） */
+  :global(.contentSection) .block, .block {
+    height: auto; /* 100vh（画面いっぱいに広げる）の指定を解除 */
+    padding: 0 5vw; /* 上下の余白をゼロにしてピッタリさせる */
+    margin-bottom: 200px; /* ★ ブロック間の間隔を正確に200pxに固定！ */
+    flex-direction: column;
+    justify-content: flex-start; /* ★ 中央揃えを解除して上詰めに！ */
+    align-items: flex-start; 
+  }
+
+  /* ライブプレビューの黒背景ブロック用の調整 */
+  .darkBlock {
+    padding: 100px 5vw !important; /* 黒背景なので、内側の上下に100pxの空間をつくる */
+    margin-bottom: 150px !important; /* 次のブロック(01)への距離 */
+    align-items: center !important; 
+  }
+  /* ★ ここまで修正 */
+
+  .blockIndex {
+    display: none; 
+  }
+
+  .blockContent {
+    max-width: 100%;
+  }
+
+  .uiCard {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .uiImage {
+    width: 100%;
+  }
+
+  .mockups {
+    flex-direction: column; 
+    gap: 30px;
+  }
+
+  .pcMockup {
+    width: 100%; 
+  }
+
+  .spMockup {
+    width: 60%; /* ※スマホ画面で50%だと小さすぎたので少しだけ見やすく60%に調整しました */
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+
+  .text {
+    font-size: 0.9rem;
+  }
+
+  .playButton {
+    padding: 10px 25px;
+    font-size: 1rem;
+  }
+  .interactiveViewer {
+    aspect-ratio: 4 / 3; /* スマホでは縦幅を広げる */
+  }
+
+  .viewerControls {
+    bottom: 10px;
+    right: 10px;
+    button {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
   }
 }

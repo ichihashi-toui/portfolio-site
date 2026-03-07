@@ -137,52 +137,80 @@ function TvNode({ textures, position, size }) {
   );
 }
 
-function TvGrid({ textures }) {
+function TvGrid({ textures, isMobile }) {
   const { viewport } = useThree();
 
-  // 画面幅に基づいた計算
-  const gap = viewport.width * 0.02; // 隙間 (幅の2%)
-  const planeWidth = (viewport.width - gap * 2) / 3; // 1画面の幅 (幅を3等分 - 隙間)
-  const planeHeight = planeWidth * (2 / 3); // 1画面の高さ (4:3のアスペクト比)
+  if (isMobile) {
+    // --- スマホ用：縦に3台配置 ---
+    // ★ 0.75から0.95（画面幅の95%）に変更して横幅いっぱいに！
+    const planeWidth = viewport.width * 1; 
+    const planeHeight = planeWidth * (2 / 3);
+    // ★ 画面が大きくなる分、縦の隙間を少し詰める
+    const gap = planeHeight * 0.05; 
 
-  // グリッド配置のための座標計算関数
-  const getX = (col) => (col - 1) * (planeWidth + gap);
-  const getY = (row) => (row === 0 ? 1 : -1) * (planeHeight / 2 + gap / 2);
+    // 真ん中(row=1)を Y=0 とし、上(row=0)と下(row=2)を計算
+    const getY = (row) => (1 - row) * (planeHeight + gap);
 
-  const positions = [
-    [getX(0), getY(0), 0], [getX(1), getY(0), 0], [getX(2), getY(0), 0],
-    [getX(0), getY(1), 0], [getX(1), getY(1), 0], [getX(2), getY(1), 0]
-  ];
+    const positions = [
+      [0, getY(0), 0], // 上
+      [0, getY(1), 0], // 中
+      [0, getY(2), 0]  // 下
+    ];
 
-  return (
-    <group>
-      {/* 座標データをもとに6つのモニターを配置 */}
-      {positions.map((pos, i) => (
-        <TvNode 
-          key={i} 
-          textures={textures} 
-          position={pos} 
-          size={[planeWidth, planeHeight]} 
-        />
-      ))}
-    </group>
-  );
+    return (
+      <group>
+        {positions.map((pos, i) => (
+          <TvNode key={i} textures={textures} position={pos} size={[planeWidth, planeHeight]} />
+        ))}
+      </group>
+    );
+
+  } else {
+    // --- PC用：横3 × 縦2の6台配置（既存のまま） ---
+    const gap = viewport.width * 0.02; 
+    const planeWidth = (viewport.width - gap * 2) / 3; 
+    const planeHeight = planeWidth * (2 / 3); 
+
+    const getX = (col) => (col - 1) * (planeWidth + gap);
+    const getY = (row) => (row === 0 ? 1 : -1) * (planeHeight / 2 + gap / 2);
+
+    const positions = [
+      [getX(0), getY(0), 0], [getX(1), getY(0), 0], [getX(2), getY(0), 0],
+      [getX(0), getY(1), 0], [getX(1), getY(1), 0], [getX(2), getY(1), 0]
+    ];
+
+    return (
+      <group>
+        {positions.map((pos, i) => (
+          <TvNode key={i} textures={textures} position={pos} size={[planeWidth, planeHeight]} />
+        ))}
+      </group>
+    );
+  }
 }
 
 export default function HomeTvGallery() {
   const textures = useLoader(THREE.TextureLoader, galleryImages);
+  // ★画面幅を判定するステートを追加
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  if (!textures) return null; // ロード中
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if (!textures) return null; 
 
   return (
-    // カメラの距離(z: 8)と視野角(fov: 45)を調整して6画面を画角に収める
-    <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+    // ★スマホの時は少しカメラを遠ざけて縦3画面が収まるように微調整
+    <Canvas camera={{ position: [0, 0, isMobile ? 12 : 8], fov: 45 }}>
       <color attach="background" args={['#e5e5e5']} />
       <ambientLight intensity={0.5} />
       <Environment preset="city" />
       
-      {/* 6台のテレビを管理するコンポーネント */}
-      <TvGrid textures={textures} />
+      {/* ★ isMobileをTvGridに渡す */}
+      <TvGrid textures={textures} isMobile={isMobile} />
     </Canvas>
   );
 }

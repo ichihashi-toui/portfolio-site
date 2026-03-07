@@ -85,3 +85,43 @@
   opacity: 1;
   transform: translateY(-50%) scale(1);
 }
+
+@media (max-width: 768px) {
+  .contentsSection {
+    flex-direction: column;
+    padding-top: 1.5rem;
+  }
+
+  .leftArea {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.5rem;
+  }
+
+  .rightArea {
+    width: 100%;
+  }
+
+  .projectItem {
+    padding: 1.2rem 0;
+  }
+
+  .projectItem:hover {
+    padding: 1.2rem 0;
+  }
+
+  .projectTitle {
+    font-size: 1.2rem;
+  }
+
+  .projectMeta {
+    font-size: 0.75rem;
+  }
+
+  .mockup {
+    display: none;
+  }
+}

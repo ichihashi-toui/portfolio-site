@@ -56,9 +56,10 @@ export default function CosmeContent() {
           </div>
         </div>
       </div>
-
+<div className={styles.normalContentSection}>
       <div className={`${styles.block} ${styles.snapSection}`}>
         <div className={styles.blockIndex}>01</div>
+
         <div className={styles.blockContent}>
           <div className={styles.tag}>CONCEPT</div>
           <h2 className={styles.sectionTitle}>メンズコスメブランドのコンセプト</h2>
@@ -66,6 +67,7 @@ export default function CosmeContent() {
             ここに後からテキストを追加してください。
           </p>
         </div>
+      </div>
       </div>
 
       <div className={`${styles.block} ${styles.snapSection}`}>

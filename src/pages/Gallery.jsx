@@ -6,7 +6,6 @@ import styles from './Gallery.module.scss';
 export default function Gallery() {
   const location = useLocation();
 
-  // ★画像のパスはご自身の環境（publicフォルダ内の構成）に合わせて修正してください
   const galleryData = [
     { id: 1, src: "gallery/gallery-14.jpg" },
     { id: 2, src: "gallery/gallery-10.jpg" },
@@ -42,7 +41,18 @@ export default function Gallery() {
   const [selectedId, setSelectedId] = useState(location.state?.selectedId || galleryData[0].id);
   const selectedItem = galleryData.find(item => item.id === selectedId) || galleryData[0];
   const currentIndex = galleryData.findIndex(item => item.id === selectedId);
-  const lastWheelTime = useRef(0);
+
+  // ★ 追加：インタラクティブビューア用のState
+  const [scale, setScale] = useState(1);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const startPos = useRef({ x: 0, y: 0 });
+
+  // ★ 追加：別の画像を選んだらズームと位置をリセットする
+  useEffect(() => {
+    setScale(1);
+    setPos({ x: 0, y: 0 });
+  }, [selectedId]);
 
   const goNext = () => { if (currentIndex < galleryData.length - 1) setSelectedId(galleryData[currentIndex + 1].id); };
   const goPrev = () => { if (currentIndex > 0) setSelectedId(galleryData[currentIndex - 1].id); };
@@ -56,12 +66,35 @@ export default function Gallery() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedId]); 
 
-  const handleWheel = (e) => {
-    const now = Date.now();
-    if (now - lastWheelTime.current < 600) return;
-    if (Math.abs(e.deltaY) < 50) return;
-    if (e.deltaY > 0) goNext(); else goPrev();
-    lastWheelTime.current = now;
+  // ★ 変更：マウスホイールを「画像切り替え」ではなく「ズーム」に割り当て
+  const handleWheelZoom = (e) => {
+    e.stopPropagation();
+    const newScale = scale - e.deltaY * 0.005;
+    setScale(Math.min(Math.max(0.5, newScale), 5));
+  };
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    startPos.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    setPos({ x: e.clientX - startPos.current.x, y: e.clientY - startPos.current.y });
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      setIsDragging(true);
+      startPos.current = { x: e.touches[0].clientX - pos.x, y: e.touches[0].clientY - pos.y };
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging || e.touches.length !== 1) return;
+    setPos({ x: e.touches[0].clientX - startPos.current.x, y: e.touches[0].clientY - startPos.current.y });
   };
 
   return (
@@ -74,20 +107,46 @@ export default function Gallery() {
     >
       <h2 className={styles.pageTitle}>gallery</h2>
 
-      {/* 1. MAIN VIEWER */}
-      <div className={styles.mainViewer} onWheel={handleWheel}>
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={selectedItem.id}
-            src={`${import.meta.env.BASE_URL}${selectedItem.src.replace(/^\//, '')}`}
-            alt=""
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className={styles.mainImage}
-          />
-        </AnimatePresence>
+      {/* ★ 変更：メインビューアにタッチ・マウス操作のイベントを追加 */}
+      <div 
+        className={styles.mainViewer} 
+        onWheel={handleWheelZoom}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleMouseUp}
+        style={{ overflow: 'hidden', cursor: isDragging ? 'grabbing' : 'grab' }}
+      >
+        {/* ★ 追加：ズーム・ドラッグを適用するラッパー */}
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
+            transition: isDragging ? 'none' : 'transform 0.1s ease-out'
+          }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={selectedItem.id}
+              src={`${import.meta.env.BASE_URL}${selectedItem.src.replace(/^\//, '')}`}
+              alt=""
+              // scaleのアニメーションは上のdivと競合するためopacityのみに変更
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className={styles.mainImage}
+              draggable="false"
+            />
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* 2. SELECTION LIST */}

@@ -1,14 +1,22 @@
 .pageTitle {
   position: absolute;
-  top: 5vh;
+  top: 30px;
   left: 5vw;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 400;
   letter-spacing: -0.02em;
   color: #000;
   margin: 0;
   z-index: 2000;
-  pointer-events: none; /* マウスの判定を無くし、純粋な背景テキストとして扱います */
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .pageTitle {
+    top: 30px;
+    left: 5vw;
+    font-size: 1.5rem;
+  }
 }
 
 .container {
@@ -42,6 +50,8 @@
   @media (max-width: 768px) {
     width: 100%;
     margin-bottom: 20px;
+    height: 45vh;
+    overflow: hidden;
   }
 }
 
@@ -49,6 +59,14 @@
   width: 100%;
   height: auto;
   filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+
+  @media (max-width: 768px) {
+    /* ★追加：高さを枠に合わせ、はみ出た分をカットして綺麗に収める */
+    height: 100%;
+    object-fit: cover;
+    /* ★追加：顔が見切れないように、画像の上部を基準にトリミングする */
+    object-position: center 15%; 
+  }
 }
 
 .heroText {

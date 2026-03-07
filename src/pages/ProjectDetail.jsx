@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import styles from './ProjectDetail.module.scss';
 import FomoContent from '../project-contents/FomoContent';
@@ -29,28 +29,27 @@ export default function ProjectDetail() {
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
   const scrollContainerRef = useRef(null);
-  const [sectionCount, setSectionCount] = useState(1);
 
-  // ★ useEffect から useLayoutEffect に変更＆統合しました
   useLayoutEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
-
-    // 1. スクロール位置を一番上へ強制リセット
     container.scrollTo(0, 0);
 
-    // 2. セクション数を取得
-    const sections = document.querySelectorAll(`.${styles.snapSection}`);
-    setSectionCount(sections.length || 1);
+    const parallaxItems = document.querySelectorAll(`.${styles.parallaxSection}`);
+    const contentSec = document.querySelector(`.${styles.contentSection}`);
 
-    // 3. 3D配置の計算ロジック
+    // ★ 自動で必要なスクロール余白を計算して付与（これで手動の囲み枠が不要になります！）
+    if (contentSec) {
+      contentSec.style.paddingTop = `${parallaxItems.length * 100}vh`;
+    }
+
     const handleScroll = () => {
       const scrollY = container.scrollTop;
       const windowHeight = window.innerHeight;
-      // 再度最新のセクションを取得
-      const currentSections = document.querySelectorAll(`.${styles.snapSection}`);
 
-      currentSections.forEach((sec, i) => {
+      parallaxItems.forEach((sec, i) => {
+        sec.style.zIndex = parallaxItems.length - i; // FVとプレビューの重なり順を自動設定
+
         const sectionOffset = i * windowHeight;
         const distance = scrollY - sectionOffset;
         const zPosition = distance / windowHeight;
@@ -76,14 +75,11 @@ export default function ProjectDetail() {
       });
     };
 
-    // 4. スクロールイベントを登録し、遅延なく【即時実行】する！
     container.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); 
 
-    return () => {
-      container.removeEventListener('scroll', handleScroll);
-    };
-  }, [id]); // プロジェクト（id）が変わるたびに瞬時に計算し直す
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [id]);
 
   const currentIndex = projects.findIndex(p => p.slug === id);
   if (currentIndex === -1) return <div>Not Found</div>;
@@ -93,17 +89,14 @@ export default function ProjectDetail() {
   const nextProject = projects[(currentIndex + 1) % projects.length];
   const categoryNum = String(currentIndex + 1).padStart(2, '0');
 
+  // ... (handleWheel, handleTouchStart, handleTouchEnd は変更なし) ...
   const handleWheel = (e) => {
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 40) {
       const now = Date.now();
       if (now - lastNavTime.current < 1000) return;
       lastNavTime.current = now;
-
-      if (e.deltaX > 0) {
-        navigate(`/contents/${nextProject.slug}`);
-      } else {
-        navigate(`/contents/${prevProject.slug}`);
-      }
+      if (e.deltaX > 0) navigate(`/contents/${nextProject.slug}`);
+      else navigate(`/contents/${prevProject.slug}`);
     }
   };
 
@@ -114,25 +107,17 @@ export default function ProjectDetail() {
 
   const handleTouchEnd = (e) => {
     if (touchStartX.current === null || touchStartY.current === null) return;
-
     const touchEndX = e.changedTouches[0].clientX;
     const touchEndY = e.changedTouches[0].clientY;
-
     const deltaX = touchStartX.current - touchEndX;
     const deltaY = touchStartY.current - touchEndY;
-
     if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
       const now = Date.now();
       if (now - lastNavTime.current < 1000) return;
       lastNavTime.current = now;
-
-      if (deltaX > 0) {
-        navigate(`/contents/${nextProject.slug}`);
-      } else {
-        navigate(`/contents/${prevProject.slug}`);
-      }
+      if (deltaX > 0) navigate(`/contents/${nextProject.slug}`);
+      else navigate(`/contents/${prevProject.slug}`);
     }
-    
     touchStartX.current = null;
     touchStartY.current = null;
   };
@@ -147,14 +132,7 @@ export default function ProjectDetail() {
       case 'typo': return <TypoContent />;
       case 'me': return <MeContent />;
       case 'syobo': return <SyoboContent />;
-      default:
-        return (
-          <section className={styles.contentSection}>
-            <div style={{ textAlign: 'center', padding: '100px 0' }}>
-              <p>Coming Soon...</p>
-            </div>
-          </section>
-        );
+      default: return <div style={{ textAlign: 'center', padding: '100px 0' }}><p>Coming Soon...</p></div>;
     }
   };
 
@@ -168,53 +146,33 @@ export default function ProjectDetail() {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className={styles.dummyScroll}>
-        {Array.from({ length: sectionCount }).map((_, i) => (
-          <div key={i} className={styles.snapPoint} />
-        ))}
-      </div>
+      <Link to="/contents" className={styles.backButton} data-cursortext="TAP">
+        Exit
+      </Link>
 
-      <div className={styles.stickyContainer}>
-        <Link to="/contents" className={styles.backButton} data-cursortext="TAP">
-          Exit
-        </Link>
-
-        <section className={`${styles.fvSection} ${styles.snapSection}`}>
-          <img 
-            src={`${import.meta.env.BASE_URL}${project.img}`} 
-            alt={project.title} 
-            className={styles.fvImage} 
-          />
-          
-          <div className={styles.navArrows}>
-            <button 
-              onClick={() => navigate(`/contents/${prevProject.slug}`)}
-              data-cursortext="TAP"
-            >
-              &lt;
-            </button>
-            <button 
-              onClick={() => navigate(`/contents/${nextProject.slug}`)}
-              data-cursortext="TAP"
-            >
-              &gt;
-            </button>
+      <section className={`${styles.fvSection} ${styles.parallaxSection}`}>
+        <img 
+          src={`${import.meta.env.BASE_URL}${project.img}`} 
+          alt={project.title} 
+          className={styles.fvImage} 
+        />
+        <div className={styles.navArrows}>
+          <button onClick={() => navigate(`/contents/${prevProject.slug}`)} data-cursortext="TAP">&lt;</button>
+          <button onClick={() => navigate(`/contents/${nextProject.slug}`)} data-cursortext="TAP">&gt;</button>
+        </div>
+        <div className={styles.fvInfo}>
+          <div className={styles.category}>{project.cat} {categoryNum}</div>
+          <h1 className={styles.title}>{project.title}</h1>
+          <div className={styles.meta}>
+            <p>担当: {project.role}</p>
+            <p>{project.date}</p>
+            <p>{project.type}</p>
+            <p>{project.stack}</p>
           </div>
+        </div>
+      </section>
 
-          <div className={styles.fvInfo}>
-            <div className={styles.category}>{project.cat} {categoryNum}</div>
-            <h1 className={styles.title}>{project.title}</h1>
-            <div className={styles.meta}>
-              <p>担当: {project.role}</p>
-              <p>{project.date}</p>
-              <p>{project.type}</p>
-              <p>{project.stack}</p>
-            </div>
-          </div>
-        </section>
-
-        {renderContent()}
-      </div>
+      {renderContent()}
     </div>
   );
 }

@@ -20,3 +20,22 @@
   align-items: center;
   margin: 0 auto; 
 }
+
+
+@media (max-width: 768px) {
+  .gallerySection {
+    padding: 80px 0 0; /* スマホ用に上の余白を少し詰める */
+  }
+
+  .galleryTitle h2 {
+    font-size: 2.5rem;
+  }
+
+  .tvWrapper {
+    width: 100%;
+    /* ★ 横幅いっぱいのテレビが3つ並ぶため、縦幅を横幅の約2.2倍確保してスッポリ収める */
+    aspect-ratio: 1 / 2.2; 
+    height: auto; 
+    margin: 0 auto;
+  }
+}

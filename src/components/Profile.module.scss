@@ -101,3 +101,44 @@
     aspect-ratio: 3/2;
   }
 }
+
+@media (max-width: 768px) {
+  .profileSection {
+    padding: 40px 0; 
+  }
+
+  .card {
+    padding: 10vw 5vw;
+    gap: 30px;
+  }
+
+  .section {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .kana {
+    font-size: 0.9rem;
+  }
+
+  .nameJa {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .email {
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    word-break: break-all; 
+  }
+
+  .details {
+    grid-template-columns: 80px 1fr;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .bio {
+    font-size: 0.9rem;
+  }
+}

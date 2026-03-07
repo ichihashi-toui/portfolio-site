@@ -108,3 +108,98 @@
 .navText {
   font-size: 1rem;
 }
+
+/* --- 既存のコードの下に追加 --- */
+
+@media (max-width: 1024px) {
+  // タブレット・小さめのPC向け微調整
+  .title {
+    font-size: 15vw; // 画面幅に合わせて可変にする
+    margin-bottom: 50px;
+  }
+  
+  .name {
+    font-size: 3rem;
+  }
+  
+  .rightArea {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    align-items: flex-start;
+    padding-top: 0;
+    height: 100dvh;
+    /* ★ 犯人その1: ここが hidden だと親の余白の外側が切り取られてしまいます！ */
+    overflow: visible !important; 
+  }
+
+  .canvasContainer {
+    position: absolute !important;
+    top: 0 !important;
+    /* ★ 犯人その2: グローバル変数($margin-side: 5%)の分だけ左に引っ張り出して相殺する！ */
+    left: -5vw !important; 
+    width: 100vw !important;
+    height: 100dvh !important;
+    transform: none !important; 
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .contentWrapper {
+    padding: 5vh 5vw;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .title {
+    font-size: 20vw;
+    margin-left: 0;
+    margin-bottom: 0;
+    line-height: 1;
+  }
+
+  .year, .genre, .tools {
+    display: none;
+  }
+
+  .lowerContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .infoArea {
+    position: absolute;
+    top: calc(5vh + 20vw + 10px); 
+    left: 5vw;
+    transform: none;
+  }
+
+  .name {
+    font-size: 2.2rem; 
+    margin-bottom: 0;
+    line-height: 1.1;
+  }
+
+  .rightArea {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 2vh; 
+  }
+
+  .navItem {
+    padding: 0.8rem 0;
+  }
+
+  .navNum {
+    font-size: 2.2rem;
+    margin-right: 1rem;
+  }
+}

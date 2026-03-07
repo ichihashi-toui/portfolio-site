@@ -13,10 +13,12 @@ html {
   background-color: $bg-color;
   -webkit-font-smoothing: antialiased;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 body {
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 img, picture, video, canvas, svg {
