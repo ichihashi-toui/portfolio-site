@@ -11,14 +11,14 @@ import MeContent from '../project-contents/MeContent';
 import SyoboContent from '../project-contents/SyoboContent';
 
 const projects = [
-  { id: 1, slug: 'fomo', cat: 'Web design', title: 'FOMO啓発サイト', date: '2026.02', type: '個人制作', role: '企画・デザイン・実装', stack: 'Figma / HTML / CSS / JavaScript', img: 'moc/fomo.png' },
+  { id: 1, slug: 'fomo', cat: 'Web design', title: 'FOMO啓発サイト', date: '2026.01', type: '個人制作', role: 'Webデザイン / 企画 / フロントエンド実装', stack: 'Figma / HTML / CSS / JavaScript', img: 'moc/fomo.png' },
   { id: 2, slug: 'eqd', cat: 'Web design', title: 'ブランドサイトリデザイン', date: '2025.11', type: '個人制作', role: 'ブランディング / Webデザイン / フロントエンド実装', stack: 'Figma / Blender / React / Sass', img: 'moc/eqd.png' },
-  { id: 3, slug: 'cosme', cat: 'Web design', title: 'メンズ美容ブランド', date: '2026.02', type: '個人制作', role: 'Webデザイン / フロントエンド実装', stack: 'Figma / React / Sass', img: 'moc/cosme.png' },
-  { id: 4, slug: 'inter', cat: 'Web design', title: 'コーポレートサイト改修', date: '2025.11', type: '個人制作', role: 'ブランディング / Webデザイン / フロントエンド実装', stack: 'Figma / Blender / React / Sass', img: 'moc/inter.png' },
-  { id: 5, slug: 'fukuda', cat: 'graphic design', title: '展示会リーフレット', date: '2026.02', type: '個人制作', role: 'Webデザイン / フロントエンド実装', stack: 'Figma / React / Sass', img: 'moc/fukuda.png' },
-  { id: 6, slug: 'typo', cat: 'graphic design', title: 'タイポグラフィアートワーク', date: '2025.11', type: '個人制作', role: 'ブランディング / Webデザイン / フロントエンド実装', stack: 'Figma / Blender / React / Sass', img: 'moc/typo.png' },
-  { id: 7, slug: 'me', cat: 'graphic design', title: '自己表現コラージュ', date: '2026.02', type: '個人制作', role: 'Webデザイン / フロントエンド実装', stack: 'Figma / React / Sass', img: 'moc/me.png' },
-  { id: 8, slug: 'syobo', cat: 'graphic design', title: '危険物事故防止ポスター', date: '2025.11', type: '個人制作', role: 'ブランディング / Webデザイン / フロントエンド実装', stack: 'Figma / Blender / React / Sass', img: 'moc/syobo.png' },
+  { id: 3, slug: 'cosme', cat: 'Web design', title: 'メンズ美容ブランド', date: '2025.12', type: '個人制作', role: 'ロゴデザイン / ブランディング / Webデザイン / 実装', stack: 'Illustrator/ Figma / Blender / HTML/ CSS /JavaScript', img: 'moc/cosme.png' },
+  { id: 4, slug: 'inter', cat: 'Web design', title: 'コーポレートサイト改修', date: '2025.10', type: 'インターン制作 制作人数5人', role: 'Webデザイン / 3Dビジュアル / 実装', stack: 'Figma / Blender / After Effects / HTML / CSS / JavaScript', img: 'moc/inter.png' },
+  { id: 5, slug: 'fukuda', cat: 'graphic design', title: '展示会リーフレット', date: '2025.06', type: '個人制作', role: '展示企画 / リーフレットデザイン', stack: 'Illustrator / Photoshop / Blender', img: 'moc/fukuda.png' },
+  { id: 6, slug: 'typo', cat: 'graphic design', title: 'タイポグラフィアートワーク', date: '2025.09', type: '個人制作', role: 'ポスターデザイン', stack: 'Illustrator / Photoshop', img: 'moc/typo.png' },
+  { id: 7, slug: 'me', cat: 'graphic design', title: '自己表現コラージュ', date: '2025.07', type: '個人制作', role: 'ポスターデザイン', stack: 'Illustrator / Photoshop', img: 'moc/me.png' },
+  { id: 8, slug: 'syobo', cat: 'graphic design', title: '危険物事故防止ポスター', date: '2025.11', type: '個人制作', role: 'ポスターデザイン', stack: 'Illustrator / Photoshop / Blender', img: 'moc/syobo.png' },
 ];
 
 export default function ProjectDetail() {
@@ -123,10 +123,10 @@ export default function ProjectDetail() {
           <Link to={`/contents/${nextProject.slug}`} className={styles.navArrow} data-cursortext="TAP">&gt;</Link>
         </div>
         <div className={styles.fvInfo}>
-          <div className={styles.category}>{project.cat} {categoryNum}</div>
+          <div className={styles.category}>{project.cat}</div>
           <h1 className={styles.title}>{project.title}</h1>
           <div className={styles.meta}>
-            <p>担当: {project.role}</p>
+            <p>{project.role}</p>
             <p>{project.date}</p>
             <p>{project.type}</p>
             <p>{project.stack}</p>
