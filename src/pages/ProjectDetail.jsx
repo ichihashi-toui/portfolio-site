@@ -25,9 +25,6 @@ export default function ProjectDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  const lastNavTime = useRef(0);
-  const touchStartX = useRef(null);
-  const touchStartY = useRef(null);
   const scrollContainerRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -38,7 +35,6 @@ export default function ProjectDetail() {
     const parallaxItems = document.querySelectorAll(`.${styles.parallaxSection}`);
     const contentSec = document.querySelector(`.${styles.contentSection}`);
 
-    // ★ 自動で必要なスクロール余白を計算して付与（これで手動の囲み枠が不要になります！）
     if (contentSec) {
       contentSec.style.paddingTop = `${parallaxItems.length * 100}vh`;
     }
@@ -48,7 +44,7 @@ export default function ProjectDetail() {
       const windowHeight = window.innerHeight;
 
       parallaxItems.forEach((sec, i) => {
-        sec.style.zIndex = parallaxItems.length - i; // FVとプレビューの重なり順を自動設定
+        sec.style.zIndex = parallaxItems.length - i; 
 
         const sectionOffset = i * windowHeight;
         const distance = scrollY - sectionOffset;
@@ -70,7 +66,7 @@ export default function ProjectDetail() {
 
         sec.style.transform = `translate3d(0, 0, 0) scale(${scale})`;
         sec.style.opacity = opacity;
-        sec.style.pointerEvents = opacity > 0.8 ? 'auto' : 'none';
+        sec.style.pointerEvents = 'none';
         sec.style.visibility = opacity > 0 ? 'visible' : 'hidden';
       });
     };
@@ -88,39 +84,6 @@ export default function ProjectDetail() {
   const prevProject = projects[(currentIndex - 1 + projects.length) % projects.length];
   const nextProject = projects[(currentIndex + 1) % projects.length];
   const categoryNum = String(currentIndex + 1).padStart(2, '0');
-
-  // ... (handleWheel, handleTouchStart, handleTouchEnd は変更なし) ...
-  const handleWheel = (e) => {
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 40) {
-      const now = Date.now();
-      if (now - lastNavTime.current < 1000) return;
-      lastNavTime.current = now;
-      if (e.deltaX > 0) navigate(`/contents/${nextProject.slug}`);
-      else navigate(`/contents/${prevProject.slug}`);
-    }
-  };
-
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e) => {
-    if (touchStartX.current === null || touchStartY.current === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaX = touchStartX.current - touchEndX;
-    const deltaY = touchStartY.current - touchEndY;
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-      const now = Date.now();
-      if (now - lastNavTime.current < 1000) return;
-      lastNavTime.current = now;
-      if (deltaX > 0) navigate(`/contents/${nextProject.slug}`);
-      else navigate(`/contents/${prevProject.slug}`);
-    }
-    touchStartX.current = null;
-    touchStartY.current = null;
-  };
 
   const renderContent = () => {
     switch (id) {
@@ -141,23 +104,23 @@ export default function ProjectDetail() {
       id="portfolio-scroll-wrapper" 
       className={styles.pageWrapper} 
       ref={scrollContainerRef}
-      onWheel={handleWheel}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
       <Link to="/contents" className={styles.backButton} data-cursortext="TAP">
         Exit
       </Link>
 
-      <section className={`${styles.fvSection} ${styles.parallaxSection}`}data-cursortext="SCROLL">
+      <section 
+        className={`${styles.fvSection} ${styles.parallaxSection}`}
+        data-cursortext="SCROLL"
+      >
         <img 
           src={`${import.meta.env.BASE_URL}${project.img}`} 
           alt={project.title} 
           className={styles.fvImage} 
         />
         <div className={styles.navArrows}>
-          <button onClick={() => navigate(`/contents/${prevProject.slug}`)} data-cursortext="TAP">&lt;</button>
-          <button onClick={() => navigate(`/contents/${nextProject.slug}`)} data-cursortext="TAP">&gt;</button>
+          <Link to={`/contents/${prevProject.slug}`} className={styles.navArrow} data-cursortext="TAP">&lt;</Link>
+          <Link to={`/contents/${nextProject.slug}`} className={styles.navArrow} data-cursortext="TAP">&gt;</Link>
         </div>
         <div className={styles.fvInfo}>
           <div className={styles.category}>{project.cat} {categoryNum}</div>

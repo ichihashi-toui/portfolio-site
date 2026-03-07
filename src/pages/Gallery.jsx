@@ -35,13 +35,15 @@ export default function Gallery() {
   const selectedItem = galleryData.find(item => item.id === selectedId) || galleryData[0];
   const currentIndex = galleryData.findIndex(item => item.id === selectedId);
 
-  // ★ 追加：インタラクティブビューア用のState
   const [scale, setScale] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [isPinching, setIsPinching] = useState(false);
+  
   const startPos = useRef({ x: 0, y: 0 });
+  const initialTouchDistance = useRef(null);
+  const initialScale = useRef(1);
 
-  // ★ 追加：別の画像を選んだらズームと位置をリセットする
   useEffect(() => {
     setScale(1);
     setPos({ x: 0, y: 0 });
@@ -59,7 +61,6 @@ export default function Gallery() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedId]); 
 
-  // ★ 変更：マウスホイールを「画像切り替え」ではなく「ズーム」に割り当て
   const handleWheelZoom = (e) => {
     e.stopPropagation();
     const newScale = scale - e.deltaY * 0.005;
@@ -76,18 +77,41 @@ export default function Gallery() {
     setPos({ x: e.clientX - startPos.current.x, y: e.clientY - startPos.current.y });
   };
 
-  const handleMouseUp = () => setIsDragging(false);
+  const handleEnd = () => {
+    setIsDragging(false);
+    setIsPinching(false);
+    initialTouchDistance.current = null;
+  };
+
+  const getDistance = (touches) => {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
 
   const handleTouchStart = (e) => {
     if (e.touches.length === 1) {
       setIsDragging(true);
+      setIsPinching(false);
       startPos.current = { x: e.touches[0].clientX - pos.x, y: e.touches[0].clientY - pos.y };
+      initialTouchDistance.current = null;
+    } else if (e.touches.length === 2) {
+      setIsDragging(false);
+      setIsPinching(true);
+      initialTouchDistance.current = getDistance(e.touches);
+      initialScale.current = scale;
     }
   };
 
   const handleTouchMove = (e) => {
-    if (!isDragging || e.touches.length !== 1) return;
-    setPos({ x: e.touches[0].clientX - startPos.current.x, y: e.touches[0].clientY - startPos.current.y });
+    if (e.touches.length === 1 && isDragging) {
+      setPos({ x: e.touches[0].clientX - startPos.current.x, y: e.touches[0].clientY - startPos.current.y });
+    } else if (e.touches.length === 2 && isPinching && initialTouchDistance.current !== null) {
+      const currentDistance = getDistance(e.touches);
+      const scaleChange = currentDistance / initialTouchDistance.current;
+      const newScale = initialScale.current * scaleChange;
+      setScale(Math.min(Math.max(0.5, newScale), 5));
+    }
   };
 
   return (
@@ -100,20 +124,18 @@ export default function Gallery() {
     >
       <h2 className={styles.pageTitle}>gallery</h2>
 
-      {/* ★ 変更：メインビューアにタッチ・マウス操作のイベントを追加 */}
       <div 
         className={styles.mainViewer} 
         onWheel={handleWheelZoom}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseUp={handleEnd}
+        onMouseLeave={handleEnd}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        onTouchEnd={handleMouseUp}
+        onTouchEnd={handleEnd}
         style={{ overflow: 'hidden', cursor: isDragging ? 'grabbing' : 'grab' }}
       >
-        {/* ★ 追加：ズーム・ドラッグを適用するラッパー */}
         <div
           style={{
             width: '100%',
@@ -122,7 +144,7 @@ export default function Gallery() {
             justifyContent: 'center',
             alignItems: 'center',
             transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`,
-            transition: isDragging ? 'none' : 'transform 0.1s ease-out'
+            transition: (isDragging || isPinching) ? 'none' : 'transform 0.1s ease-out'
           }}
         >
           <AnimatePresence mode="wait">
@@ -130,7 +152,6 @@ export default function Gallery() {
               key={selectedItem.id}
               src={`${import.meta.env.BASE_URL}${selectedItem.src.replace(/^\//, '')}`}
               alt=""
-              // scaleのアニメーションは上のdivと競合するためopacityのみに変更
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -142,7 +163,6 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* 2. SELECTION LIST */}
       <div 
         className={styles.listContainer} 
         onWheel={(e) => e.stopPropagation()} 
