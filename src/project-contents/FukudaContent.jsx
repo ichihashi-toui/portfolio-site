@@ -42,10 +42,9 @@ export default function FukudaContent() {
 
   return (
     <section className={styles.contentSection}>
-      <div className={`${styles.block} ${styles.parallaxSection} ${styles.darkBlock}`}>
+      <div className={`${styles.block} ${styles.darkBlock}`}>
         <div className={styles.fullWidthContent}>
           <div className={`${styles.tag} ${styles.darkTag}`}>INTERACTIVE VIEWER</div>
-          <h2 className={`${styles.sectionTitle} ${styles.darkText}`}>作品のディテールを見る</h2>
           <p className={`${styles.text} ${styles.darkText}`}>
             PCはマウスホイールとドラッグ、スマホはスワイプで自由に移動してご覧いただけます。
           </p>
@@ -64,7 +63,7 @@ export default function FukudaContent() {
               style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
             >
               <img 
-                src={`${import.meta.env.BASE_URL}moc/fukuda.png`} 
+                src={`${import.meta.env.BASE_URL}contents/leaflet.png`} 
                 alt="Graphic Artwork" 
                 className={styles.viewerImage}
                 style={{ 
@@ -85,8 +84,8 @@ export default function FukudaContent() {
         <div className={styles.blockIndex}>01</div>
         <div className={styles.blockContent}>
           <div className={styles.tag}>CONCEPT</div>
-          <h2 className={styles.sectionTitle}>デザインコンセプト</h2>
-          <p className={styles.text}>ここにテキストを追加</p>
+          <h2 className={styles.sectionTitle}>見る。立ち止まる。考える。</h2>
+          <p className={styles.text}>錯視やトリックアートの持つ違和感のイメージを想像させるような造りになるよう、ビジュアルに3DCGを使用しました。若年層がインパクトを感じ、思わず手に取りたくなるリーフレットを目指しました。</p>
         </div>
       </div>
     </section>

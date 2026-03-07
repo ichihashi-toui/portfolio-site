@@ -1,3 +1,6 @@
+/* =========================================
+   1. Base & Layout (全体レイアウト・共通設定)
+   ========================================= */
 .pageWrapper {
   width: 100%;
   height: 100vh;
@@ -47,19 +50,15 @@
   justify-content: center;
 }
 
-.normalContentSection {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  background-color: #e5e5e5;
-  padding-bottom: 10vh;
-}
 
+/* =========================================
+   2. Navigation (戻るボタン・矢印)
+   ========================================= */
 .backButton {
   position: fixed; 
-  top: 20px;
+  top: 30px;
   left: 5vw;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 400;
   letter-spacing: -0.02em;
   color: #fff; 
@@ -72,35 +71,10 @@
   &:hover {
     opacity: 0.5; 
   }
-}
 
-.fvSection {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.fvImage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-
-.fvOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #e5e5e5;
-  z-index: 3;
-  pointer-events: none;
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 }
 
 .navArrows {
@@ -130,7 +104,44 @@
       opacity: 0.7;
       transform: scale(1.1);
     }
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
   }
+}
+
+
+/* =========================================
+   3. FV Section (ファーストビューエリア)
+   ========================================= */
+.fvSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.fvImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.fvOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .fvInfo {
@@ -139,6 +150,17 @@
   left: 5vw;
   z-index: 2;
   color: #000;
+
+  /* スマホ版：文字被りを防ぐためのグラデーション背景 */
+  @media (max-width: 768px) {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 150px 5vw 5vh; 
+    box-sizing: border-box;
+    background: linear-gradient(to top, rgba(229, 229, 229, 1) 40%, rgba(229, 229, 229, 0) 100%);
+    pointer-events: none; 
+  }
 }
 
 .category {
@@ -148,10 +170,15 @@
 }
 
 .title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
 }
 
 .meta {
@@ -162,24 +189,63 @@
   font-weight: 500;
 }
 
+
+/* =========================================
+   4. Content Blocks (詳細コンテンツエリア)
+   ========================================= */
 :global(.contentSection), .contentSection {
   position: relative;
   width: 100%;
   z-index: 1;
+  /* ★ ここにあった background-color: #e5e5e5; を削除するか transparent に変更！ */
+  background-color: transparent; 
 }
 
 .block {
   position: relative;
   z-index: 5;
   background-color: #e5e5e5;
-  height: 100vh;
+  /* ★ 変更：コンテンツが増えてもはみ出さないように min-height にする */
+  min-height: 100vh; 
   width: 100%;
   display: flex;
   flex-direction: row; 
   justify-content: center; 
-  align-items: center; 
+  /* ★ 変更：center から flex-start に変更して上端揃えにする！ */
+  align-items: flex-start; 
   gap: 8vw; 
-  padding: 0 5vw;
+  /* ★ 変更：画面上端に張り付かないように、上から20%の位置からスタートさせる */
+  padding: 20vh 5vw; 
+
+  @media (max-width: 768px) {
+    height: auto; 
+    min-height: auto; /* ★ スマホでは min-height を解除 */
+    padding: 0 5vw; 
+    margin-bottom: 200px; 
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: flex-start; 
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.darkBlock {
+  background-color: #111 !important;
+  flex-direction: column !important; 
+  justify-content: center;
+  align-items: center;
+  gap: 30px !important;
+  height: auto !important;
+  padding: 100px 5vw !important;
+
+  @media (max-width: 768px) {
+    padding: 100px 5vw !important; 
+    margin-bottom: 150px !important; 
+    align-items: center !important; 
+  }
 }
 
 .blockIndex {
@@ -188,6 +254,10 @@
   line-height: 1;
   color: #111; 
   flex-shrink: 0; 
+
+  @media (max-width: 768px) {
+    display: none; 
+  }
 }
 
 .blockContent {
@@ -196,6 +266,64 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start; 
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+}
+
+.fullWidthContent {
+  width: 100%;
+  max-width: 1200px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+/* =========================================
+   5. Typography & Small UI (文字・タグなど)
+   ========================================= */
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
+}
+
+.text {
+  font-size: 1rem;
+  line-height: 1.8;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}
+
+.darkText {
+  color: #fff;
+}
+
+.tag {
+  display: inline-block;
+  border: 1px solid #000;
+  padding: 5px 15px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  letter-spacing: 0.05em;
+}
+
+.darkTag {
+  border-color: #fff;
+  color: #fff;
+  margin-bottom: 20px;
 }
 
 .card {
@@ -211,17 +339,6 @@
   margin-bottom: 15px;
 }
 
-.tag {
-  display: inline-block;
-  border: 1px solid #000;
-  padding: 5px 15px;
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 30px;
-  letter-spacing: 0.05em;
-}
-
 .subText {
   margin-top: 10px;
   font-size: 1rem;
@@ -230,23 +347,14 @@
 
 .arrowDown {
   font-size: 2rem;
-  margin: 20px 0;
+  margin: 20px 0 20px 50px;
   color: #666;
-  margin-left: 50px; 
 }
 
-.sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
 
-.text {
-  font-size: 1rem;
-  line-height: 1.8;
-}
-
+/* =========================================
+   6. UI Explanation Cards (UI解説カード)
+   ========================================= */
 .uiCards {
   display: flex;
   flex-direction: column;
@@ -261,6 +369,11 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   padding: 20px;
   gap: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 15px;
+  }
 }
 
 .uiImage {
@@ -269,6 +382,10 @@
   object-fit: cover;
   border-radius: 4px;
   flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .uiText {
@@ -283,33 +400,10 @@
   }
 }
 
-.darkBlock {
-  background-color: #111 !important;
-  flex-direction: column !important; 
-  justify-content: center;
-  align-items: center;
-  gap: 30px !important;
-}
 
-.fullWidthContent {
-  width: 100%;
-  max-width: 1200px; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.darkText {
-  color: #fff;
-}
-
-.darkTag {
-  border-color: #fff;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
+/* =========================================
+   7. Web Live Preview (Webサイトプレビュー)
+   ========================================= */
 .mockupContainerGroup {
   position: relative;
   width: 100%;
@@ -329,6 +423,11 @@
   pointer-events: none;
   opacity: 0.4;
   transition: opacity 0.3s ease;
+
+  @media (max-width: 768px) {
+    flex-direction: column; 
+    gap: 30px;
+  }
 }
 
 .active {
@@ -346,6 +445,10 @@
   border: 12px solid #222; 
   position: relative;
   overscroll-behavior: contain; 
+
+  @media (max-width: 768px) {
+    width: 100%; 
+  }
 }
 
 .spMockup {
@@ -358,6 +461,10 @@
   border: 10px solid #222;
   position: relative;
   overscroll-behavior: contain; 
+
+  @media (max-width: 768px) {
+    width: 60%; 
+  }
 }
 
 .pcIframe {
@@ -408,8 +515,17 @@
   &:hover {
     transform: translate(-50%, -50%) scale(1.05);
   }
+
+  @media (max-width: 768px) {
+    padding: 10px 25px;
+    font-size: 1rem;
+  }
 }
 
+
+/* =========================================
+   8. Graphic Live Preview (グラフィックプレビュー)
+   ========================================= */
 .interactiveViewer {
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -421,11 +537,19 @@
   justify-content: center;
   align-items: center;
   border: 1px solid #333;
+  /* padding指定は削除してスッキリさせます */
+
+  @media (max-width: 768px) {
+    aspect-ratio: 4 / 3; 
+  }
 }
 
 .viewerImage {
-  max-width: 90%;
-  max-height: 90%;
+  /* ★ 100%の指定を外して、画像自体の最大サイズを制限します！ */
+  width: auto;
+  height: auto;
+  max-width: 80%; /* ★ 黒枠に対して「横は半分以下のサイズ」までしか広がらないようにする */
+  max-height: 80%; /* ★ 縦も少しゆとりを持たせる */
   object-fit: contain;
   user-select: none;
   pointer-events: none;
@@ -452,93 +576,8 @@
     transition: background 0.3s;
     &:hover { background: rgba(255, 255, 255, 0.4); }
   }
-}
 
-@media (max-width: 768px) {
-  .backButton {
-    font-size: 1.8rem;
-    top: 15px;
-    left: 5vw;
-  }
-
-  .title {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-
-  .fvInfo {
-    bottom: 5vh;
-  }
-
-  .navArrows button {
-    font-size: 2rem;
-  }
-
-  /* ★ ここから大きく修正（ブロックのレイアウトと間隔の統一） */
-  :global(.contentSection) .block, .block {
-    height: auto; /* 100vh（画面いっぱいに広げる）の指定を解除 */
-    padding: 0 5vw; /* 上下の余白をゼロにしてピッタリさせる */
-    margin-bottom: 200px; /* ★ ブロック間の間隔を正確に200pxに固定！ */
-    flex-direction: column;
-    justify-content: flex-start; /* ★ 中央揃えを解除して上詰めに！ */
-    align-items: flex-start; 
-  }
-
-  /* ライブプレビューの黒背景ブロック用の調整 */
-  .darkBlock {
-    padding: 100px 5vw !important; /* 黒背景なので、内側の上下に100pxの空間をつくる */
-    margin-bottom: 150px !important; /* 次のブロック(01)への距離 */
-    align-items: center !important; 
-  }
-  /* ★ ここまで修正 */
-
-  .blockIndex {
-    display: none; 
-  }
-
-  .blockContent {
-    max-width: 100%;
-  }
-
-  .uiCard {
-    flex-direction: column;
-    padding: 15px;
-  }
-
-  .uiImage {
-    width: 100%;
-  }
-
-  .mockups {
-    flex-direction: column; 
-    gap: 30px;
-  }
-
-  .pcMockup {
-    width: 100%; 
-  }
-
-  .spMockup {
-    width: 60%; /* ※スマホ画面で50%だと小さすぎたので少しだけ見やすく60%に調整しました */
-  }
-
-  .sectionTitle {
-    font-size: 1.2rem;
-  }
-
-  .text {
-    font-size: 0.9rem;
-  }
-
-  .playButton {
-    padding: 10px 25px;
-    font-size: 1rem;
-  }
-  .interactiveViewer {
-    aspect-ratio: 4 / 3; /* スマホでは縦幅を広げる */
-  }
-
-  .viewerControls {
+  @media (max-width: 768px) {
     bottom: 10px;
     right: 10px;
     button {

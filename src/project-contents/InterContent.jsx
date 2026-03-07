@@ -45,14 +45,59 @@ export default function InterContent() {
         </div>
       </div>
 
-      <div className={`${styles.block} ${styles.snapSection}`}>
-        <div className={styles.blockIndex}>01</div>
-        <div className={styles.blockContent}>
-          <div className={styles.tag}>OVERVIEW</div>
-          <h2 className={styles.sectionTitle}>コーポレートサイト改修</h2>
-          <p className={styles.text}>ここにテキストを追加</p>
-        </div>
-      </div>
-    </section>
+      <div className={styles.normalContentSection}>
+            <div className={`${styles.block} ${styles.snapSection}`}>
+                    <div className={styles.blockIndex}>01</div>
+                    <div className={styles.blockContent}>
+                      <div className={styles.tag}>target</div>
+                      <h2 className={styles.sectionTitle}>1st：20代前半男性 求職者</h2>
+                      <h2 className={styles.sectionTitle}>2st：30〜40代男性 企業</h2>
+                    </div>
+                  </div>
+            
+                
+            
+                  <div className={`${styles.block} ${styles.snapSection}`}>
+                    <div className={styles.blockIndex}>02</div>
+                    <div className={styles.blockContent}>
+                      <div className={styles.tag}>Concept</div>
+                      <h2 className={styles.sectionTitle}>専門性、誠実なブランドイメージを伝えるデザイン</h2>
+                    </div>
+                  </div>
+      
+                  <div className={`${styles.block} ${styles.snapSection}`}>
+                    <div className={styles.blockIndex}>03</div>
+                    <div className={styles.blockContent}>
+                      <div className={styles.tag}> visual</div>
+                      <h2 className={styles.sectionTitle}>ファーストビューループ動画</h2>
+            
+                    
+                      <div className={styles.uiCards}>
+                        <div className={styles.uiCard}>
+                          <img 
+                            src={`${import.meta.env.BASE_URL}contents/fomo02.png`} 
+                            alt="UIの画像" 
+                            className={styles.uiImage} 
+                          />
+                          <div className={styles.uiText}>
+                            <p>写真素材が少なく、他社サイトのように写真をメインビジュアルに使用できない点から、3DCGでの制作を企画。企業ロゴマークから球体をモチーフにして「つながり」をテーマに10秒のループ動画を制作。</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            
+                  <div className={`${styles.block} ${styles.snapSection}`}>
+                    <div className={styles.blockIndex}>04</div>
+                    <div className={styles.blockContent}>
+                      <div className={styles.tag}>point</div>
+                      <h2 className={styles.sectionTitle}>レスポンシブ対応</h2>
+                      <p className={styles.text}>
+                        ターゲットが幅広く、ユーザーの閲覧するツールが絞れないことから、どのような端末でも見やすいようなレイアウトを心がけました。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
   );
 }

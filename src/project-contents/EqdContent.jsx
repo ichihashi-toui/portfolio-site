@@ -35,10 +35,6 @@ export default function EqdContent() {
       <div className={`${styles.block} ${styles.snapSection} ${styles.darkBlock}`}>
         <div className={styles.fullWidthContent}>
           <div className={`${styles.tag} ${styles.darkTag}`}>LIVE PREVIEW</div>
-          <h2 className={`${styles.sectionTitle} ${styles.darkText}`}>実際のWebサイトを操作する</h2>
-          <p className={`${styles.text} ${styles.darkText}`}>
-            PC・スマホのレスポンシブデザインに対応しています。クリックしてインタラクションを体験してください。
-          </p>
           
           <div className={styles.mockupContainerGroup}>
             {!isInteractive && (
@@ -73,10 +69,10 @@ export default function EqdContent() {
       <div className={`${styles.block} ${styles.snapSection}`}>
         <div className={styles.blockIndex}>01</div>
         <div className={styles.blockContent}>
-          <div className={styles.tag}>CONCEPT</div>
-          <h2 className={styles.sectionTitle}>直感的な操作と3D表現でペダルの魅力を伝える</h2>
+          <div className={styles.tag}>target</div>
+          <h2 className={styles.sectionTitle}>20~30代の男性</h2>
           <p className={styles.text}>
-            EarthQuaker Devicesの持つ個性的でアナログな魅力を、デジタルのWebブラウザ上で表現するためのリデザイン案です。
+            他とは違う自分の音を追求したい層。SNSでのインフルエンサーのレビューが購入につながる。
           </p>
         </div>
       </div>
@@ -84,17 +80,72 @@ export default function EqdContent() {
       <div className={`${styles.block} ${styles.snapSection}`}>
         <div className={styles.blockIndex}>02</div>
         <div className={styles.blockContent}>
-          <div className={styles.tag}>3D MODELING</div>
-          <h2 className={styles.sectionTitle}>BlenderによるPlumesの精密なモデリング</h2>
+          <div className={styles.tag}>persona</div>
+
+        
+          <div className={styles.uiCards}>
+            <div className={styles.uiCard}>
+              <img 
+                src={`${import.meta.env.BASE_URL}contents/fomo02.png`} 
+                alt="UIの画像" 
+                className={styles.uiImage} 
+              />
+              <div className={styles.uiText}>
+                <h4>高橋 健太</h4>
+                <p>26歳 IT系エンジニア 一人暮らし</p>
+                <p>内向的で大人数よりも気の合う少人数の仲間といることを好む。<br/>
+                    一度ハマると、とことん突き詰めないと気が済まない。<br/>
+                    自分が使うものにこだわりがあり、機能性とデザインを両立したものを選ぶ。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${styles.block} ${styles.snapSection}`}>
+        <div className={styles.blockIndex}>03</div>
+        <div className={styles.blockContent}>
+          <div className={styles.tag}>CONCEPT</div>
+          <h2 className={styles.sectionTitle}>ブランドイメージが手に取るように分かる体験型のサイト</h2>
           <p className={styles.text}>
-            メインビジュアルやインタラクションで使用するため、代表的なオーバードライブペダルであるPlumesをBlenderでモデリングしました。筐体の質感やノブのディテールにこだわっています。
+            EQDのもつ個性的な音のイメージを視覚的に表現し、購買意欲を高める。
           </p>
+        </div>
+      </div>
+
+      <div className={`${styles.block} ${styles.snapSection}`}>
+        <div className={styles.blockIndex}>04</div>
+        <div className={styles.blockContent}>
+          <div className={styles.tag}>point</div>
+          <h2 className={styles.sectionTitle}>体験を重視した構造</h2>
+          
           <div className={styles.uiCards}>
             <div className={styles.uiCard}>
               <div className={styles.uiImage}></div>
               <div className={styles.uiText}>
-                <h4>3D Model Viewer</h4>
-                <p>細部のディテールまで自由に回転して確認できるUIを実装想定。</p>
+                <h4>触れるファーストビュー</h4>
+                <p>製品ごとに異なるデモ音源を再生する情報パネルを展開。視覚的な面白さだけでなく、製品理解への導線として機能させました。</p>
+              </div>
+            </div>
+            <div className={styles.uiCard}>
+              <div className={styles.uiImage}></div>
+              <div className={styles.uiText}>
+                <h4>GSAPによるスクロール</h4>
+                <p>特定セクションでは、スクロール量に応じて画像がコマ送りで切り替わる連番アニメーションを実装しました。</p>
+              </div>
+            </div>
+            <div className={styles.uiCard}>
+              <div className={styles.uiImage}></div>
+              <div className={styles.uiText}>
+                <h4>カルーセルスライダー</h4>
+                <p>多数のアーティスト情報を効率的に見せるため、Swiper.jsを採用し、デバイスごとに最適な操作感を提供しました。</p>
+              </div>
+            </div>
+            <div className={styles.uiCard}>
+              <div className={styles.uiImage}></div>
+              <div className={styles.uiText}>
+                <h4>GSAPによる背景遷移</h4>
+                <p>違和感なく背景色を変えることで、飽きないような設計をしました。</p>
               </div>
             </div>
           </div>

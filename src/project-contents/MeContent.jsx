@@ -1,13 +1,12 @@
 import { useState, useRef } from 'react';
 import styles from '../pages/ProjectDetail.module.scss';
 
-export default function FukudaContent() {
+export default function MeContent() {
   const [scale, setScale] = useState(1);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const startPos = useRef({ x: 0, y: 0 });
 
-  // マウス用
   const handleWheel = (e) => {
     e.stopPropagation(); 
     const newScale = scale - e.deltaY * 0.005;
@@ -23,9 +22,8 @@ export default function FukudaContent() {
   };
   const handleMouseUp = () => setIsDragging(false);
 
-  // ★スマホのタッチ操作用（追加！）
   const handleTouchStart = (e) => {
-    if (e.touches.length === 1) { // 1本指の時だけ移動
+    if (e.touches.length === 1) { 
       setIsDragging(true);
       startPos.current = { x: e.touches[0].clientX - pos.x, y: e.touches[0].clientY - pos.y };
     }
@@ -42,10 +40,9 @@ export default function FukudaContent() {
 
   return (
     <section className={styles.contentSection}>
-      <div className={`${styles.block} ${styles.parallaxSection} ${styles.darkBlock}`}>
+      <div className={`${styles.block} ${styles.darkBlock}`}>
         <div className={styles.fullWidthContent}>
           <div className={`${styles.tag} ${styles.darkTag}`}>INTERACTIVE VIEWER</div>
-          <h2 className={`${styles.sectionTitle} ${styles.darkText}`}>作品のディテールを見る</h2>
           <p className={`${styles.text} ${styles.darkText}`}>
             PCはマウスホイールとドラッグ、スマホはスワイプで自由に移動してご覧いただけます。
           </p>
@@ -58,14 +55,14 @@ export default function FukudaContent() {
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
-              onTouchStart={handleTouchStart} // ★追加
-              onTouchMove={handleTouchMove}   // ★追加
-              onTouchEnd={handleMouseUp}      // ★追加
+              onTouchStart={handleTouchStart} 
+              onTouchMove={handleTouchMove}   
+              onTouchEnd={handleMouseUp}      
               style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
             >
               <img 
-                src={`${import.meta.env.BASE_URL}moc/fukuda.png`} 
-                alt="Graphic Artwork" 
+                src={`${import.meta.env.BASE_URL}contents/me.jpg`} 
+                alt="Self Expression Collage" 
                 className={styles.viewerImage}
                 style={{ 
                   transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})`, 
@@ -85,8 +82,8 @@ export default function FukudaContent() {
         <div className={styles.blockIndex}>01</div>
         <div className={styles.blockContent}>
           <div className={styles.tag}>CONCEPT</div>
-          <h2 className={styles.sectionTitle}>デザインコンセプト</h2>
-          <p className={styles.text}>ここにテキストを追加</p>
+          <h2 className={styles.sectionTitle}>内面的な衝動をキャッチーに</h2>
+          <p className={styles.text}>自分のアイデンティティを構築するものを配置し、自分自身を押し込めている窮屈さを演出しました。</p>
         </div>
       </div>
     </section>
