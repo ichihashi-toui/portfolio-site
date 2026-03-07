@@ -141,7 +141,6 @@ export default function ProjectDetail() {
       id="portfolio-scroll-wrapper" 
       className={styles.pageWrapper} 
       ref={scrollContainerRef}
-      data-cursortext="SCROLL"
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -150,7 +149,7 @@ export default function ProjectDetail() {
         Exit
       </Link>
 
-      <section className={`${styles.fvSection} ${styles.parallaxSection}`}>
+      <section className={`${styles.fvSection} ${styles.parallaxSection}`}data-cursortext="SCROLL">
         <img 
           src={`${import.meta.env.BASE_URL}${project.img}`} 
           alt={project.title} 

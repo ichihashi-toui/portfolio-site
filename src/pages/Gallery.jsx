@@ -10,32 +10,25 @@ export default function Gallery() {
     { id: 1, src: "gallery/gallery-14.jpg" },
     { id: 2, src: "gallery/gallery-10.jpg" },
     { id: 3, src: "gallery/gallery-23.jpg" },
-    { id: 4, src: "gallery/kotomi-6.jpg" },
-    { id: 5, src: "gallery/gallery-17.jpg" },
-    { id: 6, src: "gallery/kotomi-2.jpg" },
-    { id: 7, src: "gallery/gallery-12.jpg" },
-    { id: 8, src: "gallery/kotomi-3.jpg" },
-    { id: 9, src: "gallery/gallery-19.jpg" },
-    { id: 10, src: "gallery/gallery-05.jpg" },
-    { id: 11, src: "gallery/gallery-01.jpg" },
-    { id: 12, src: "gallery/gallery-02.jpg" },
-    { id: 13, src: "gallery/gallery-03.jpg" },
-    { id: 14, src: "gallery/gallery-04.jpg" },
-    { id: 15, src: "gallery/gallery-06.jpg" },
-    { id: 16, src: "gallery/gallery-07.jpg" },
-    { id: 17, src: "gallery/gallery-08.jpg" },
-    { id: 18, src: "gallery/gallery-09.jpg" },
-    { id: 19, src: "gallery/gallery-11.jpg" },
-    { id: 20, src: "gallery/gallery-13.jpg" },
-    { id: 21, src: "gallery/gallery-15.jpg" },
-    { id: 22, src: "gallery/gallery-16.jpg" },
-    { id: 23, src: "gallery/gallery-18.jpg" },
-    { id: 24, src: "gallery/gallery-20.jpg" },
-    { id: 25, src: "gallery/gallery-21.jpg" },
-    { id: 26, src: "gallery/gallery-22.jpg" },
-    { id: 27, src: "gallery/kotomi-1.jpg" },
-    { id: 28, src: "gallery/kotomi-4.jpg" },
-    { id: 29, src: "gallery/kotomi-5.jpg" },
+    { id: 4, src: "gallery/gallery-17.jpg" },
+    { id: 5, src: "gallery/gallery-12.jpg" },
+    { id: 6, src: "gallery/gallery-19.jpg" },
+    { id: 7, src: "gallery/gallery-05.jpg" },
+    { id: 8, src: "gallery/gallery-01.jpg" },
+    { id: 9, src: "gallery/gallery-02.jpg" },
+    { id: 10, src: "gallery/gallery-03.jpg" },
+    { id: 11, src: "gallery/gallery-04.jpg" },
+    { id: 12, src: "gallery/gallery-06.jpg" },
+    { id: 13, src: "gallery/gallery-07.jpg" },
+    { id: 14, src: "gallery/gallery-08.jpg" },
+    { id: 15, src: "gallery/gallery-09.jpg" },
+    { id: 16, src: "gallery/gallery-11.jpg" },
+    { id: 17, src: "gallery/gallery-13.jpg" },
+    { id: 18, src: "gallery/gallery-16.jpg" },
+    { id: 19, src: "gallery/gallery-18.jpg" },
+    { id: 20, src: "gallery/gallery-20.jpg" },
+    { id: 21, src: "gallery/gallery-21.jpg" },
+    { id: 22, src: "gallery/gallery-22.jpg" },
   ];
 
   const [selectedId, setSelectedId] = useState(location.state?.selectedId || galleryData[0].id);
@@ -159,6 +152,7 @@ export default function Gallery() {
             key={item.id}
             onClick={() => setSelectedId(item.id)}
             className={`${styles.listItem} ${selectedId === item.id ? styles.active : ''}`}
+            data-cursortext="TAP"
           >
             <div className={styles.thumbnailWrapper}>
               <img 

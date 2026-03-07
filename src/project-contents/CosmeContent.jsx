@@ -32,6 +32,7 @@ export default function CosmeContent() {
               <button 
                 className={styles.playButton}
                 onClick={() => setIsInteractive(true)}
+                data-cursortext="TAP"
               >
                 Tap to Play
               </button>

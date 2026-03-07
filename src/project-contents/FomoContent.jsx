@@ -32,6 +32,7 @@ export default function FomoContent() {
               <button 
                 className={styles.playButton}
                 onClick={() => setIsInteractive(true)}
+                data-cursortext="TAP"
               >
                 Tap to Play
               </button>

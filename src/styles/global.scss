@@ -58,3 +58,15 @@ section {
     cursor: none !important;
   }
 }
+
+@media (hover: none) and (pointer: coarse) {
+  /* カスタムカーソル本体を非表示（※クラス名に cursor が含まれるものをまるごと隠す） */
+  [class*="cursor"] {
+    display: none !important;
+  }
+  
+  /* サイト全体のカーソルを標準に戻す */
+  *, *::before, *::after {
+    cursor: auto !important;
+  }
+}

@@ -29,7 +29,7 @@ export default function InterContent() {
           
           <div className={styles.mockupContainerGroup}>
             {!isInteractive && (
-              <button className={styles.playButton} onClick={() => setIsInteractive(true)}>
+              <button className={styles.playButton} onClick={() => setIsInteractive(true)}data-cursortext="TAP">
                 Tap to Play
               </button>
             )}

@@ -41,6 +41,7 @@ export default function EqdContent() {
               <button 
                 className={styles.playButton}
                 onClick={() => setIsInteractive(true)}
+                data-cursortext="TAP"
               >
                 Tap to Play
               </button>
